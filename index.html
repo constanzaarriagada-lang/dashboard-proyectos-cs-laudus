@@ -232,6 +232,18 @@ body {
   font-size: 9px; font-weight: 700; color: var(--coral);
   white-space: nowrap; letter-spacing: .05em;
 }
+.gantt-header-row {
+  display: flex; align-items: stretch;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.gantt-header-row .g-label { opacity: 0; pointer-events: none; }
+.gantt-date-zone { flex: 1; position: relative; height: 26px; margin: 0 10px; }
+.g-date-tick {
+  position: absolute; top: 50%; transform: translate(-50%, -50%);
+  font-size: 9px; font-weight: 700; color: var(--bluegray);
+  white-space: nowrap; letter-spacing: .03em;
+}
 
 /* ── TWO COL ────────────────────────────────────────────────────── */
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
@@ -691,7 +703,7 @@ body {
 <script>
 /* ── STATE — Claude modifica solo este bloque cada semana ──────── */
 const STATE = {
-  version:    "1.3",
+  version:    "1.4",
   lastUpdate: "29 mayo 2026",
   week: 3,
   projects: [
@@ -779,16 +791,28 @@ function renderGantt(idx) {
   const wl = document.getElementById('wl'+idx);
   if(wl) wl.textContent = weekRangeLabel(currentWeek);
 
-  g.phases.forEach(ph => {
+  /* ── Date header row ── */
+  const headerRow = document.createElement('div');
+  headerRow.className = 'gantt-row gantt-header-row';
+  let ticksHtml = '';
+  for(let w = 1; w <= g.w; w += 2) {
+    const pct = ((w-1)/g.w*100).toFixed(2);
+    ticksHtml += `<span class="g-date-tick" style="left:${pct}%">${fmtShort(weekMonday(w))}</span>`;
+  }
+  headerRow.innerHTML = `<div class="g-label"></div><div class="gantt-date-zone">${ticksHtml}</div>`;
+  container.appendChild(headerRow);
+
+  /* ── Phase rows ── */
+  g.phases.forEach((ph, phIdx) => {
     const mw = g.w;
     const sp = ((ph.s-1)/mw*100).toFixed(2);
     const wp = ((ph.e-ph.s+1)/mw*100).toFixed(2);
     const cp = ((currentWeek-1)/mw*100).toFixed(2);
 
-    const dotColor = ph.done ? '#57B789' : ph.active ? g.c.replace('var(--','#').replace(')','') : '#CCCCCC';
     const dotColorResolved = ph.done ? '#57B789' : ph.active ? g.c : 'var(--graylight)';
     const fillClass = ph.done ? 'is-done' : ph.active ? 'is-active' : '';
     const devHtml = ph.dev ? '<span class="g-dev">⏳ Dev</span>' : '';
+    const cursorLabel = phIdx === 0 ? `<span class="g-clabel">${fmtShort(weekMonday(currentWeek))}</span>` : '';
 
     const row = document.createElement('div');
     row.className = 'gantt-row';
@@ -800,9 +824,7 @@ function renderGantt(idx) {
       <div class="g-bar-zone">
         <div class="g-track">
           <div class="g-fill ${fillClass}" style="background:${g.c};left:${sp}%;width:${wp}%"></div>
-          <div class="g-cursor" style="left:${cp}%">
-            <span class="g-clabel">${fmtShort(weekMonday(currentWeek))}</span>
-          </div>
+          <div class="g-cursor" style="left:${cp}%">${cursorLabel}</div>
         </div>
       </div>`;
     container.appendChild(row);
