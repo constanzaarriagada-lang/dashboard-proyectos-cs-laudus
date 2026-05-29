@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS Proyectos — Laudus 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: #FAF7F2;
+  color: #1C2E50;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── LAUDUS OFFICIAL PALETTE ───────────────────────────────────── */
+:root {
+  --navy:     #1C2E50;
+  --teal:     #49BCC5;
+  --coral:    #EE743B;
+  --yellow:   #FFD84D;
+  --violet:   #605BA4;
+  --green:    #57B789;
+  --bluegray: #405468;
+  --gray:     #595959;
+  --graylight:#EEEEEE;
+  --cream:    #FAF7F2;
+  --white:    #FFFFFF;
+
+  --border:   rgba(28,46,80,.10);
+  --border2:  rgba(28,46,80,.18);
+  --surface:  rgba(28,46,80,.04);
+}
+
+/* ── LAYOUT ─────────────────────────────────────────────────────── */
+.app { display: flex; min-height: 100vh; }
+
+/* ── SIDEBAR ────────────────────────────────────────────────────── */
+.sidebar {
+  width: 248px; flex-shrink: 0;
+  background: var(--navy);
+  padding: 0;
+  display: flex; flex-direction: column;
+  position: sticky; top: 0; height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  padding: 28px 24px 24px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  margin-bottom: 8px;
+}
+.brand-eyebrow {
+  font-size: 9px; font-weight: 700; letter-spacing: .15em;
+  text-transform: uppercase; color: var(--teal);
+  margin-bottom: 5px;
+}
+.brand-name {
+  font-size: 18px; font-weight: 800; color: #fff;
+  letter-spacing: -.02em; line-height: 1.1;
+}
+.brand-sub {
+  font-size: 11px; font-weight: 400; color: rgba(255,255,255,.45);
+  margin-top: 3px;
+}
+
+.nav-section-label {
+  font-size: 9px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255,255,255,.35);
+  padding: 14px 24px 6px;
+}
+
+.nav-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 24px; cursor: pointer;
+  font-size: 13px; font-weight: 500;
+  color: rgba(255,255,255,.55);
+  border-left: 3px solid transparent;
+  transition: all .2s; background: none;
+  border-top: none; border-right: none; border-bottom: none;
+  width: 100%; text-align: left;
+  font-family: 'Montserrat', sans-serif;
+}
+.nav-btn:hover { color: rgba(255,255,255,.9); background: rgba(255,255,255,.05); }
+.nav-btn.active {
+  color: #fff; border-left-color: var(--c);
+  background: rgba(255,255,255,.08);
+}
+.nav-btn .nav-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--c); flex-shrink: 0;
+}
+.nav-btn.active .nav-dot { box-shadow: 0 0 8px var(--c); }
+.nav-btn .nav-pct {
+  font-size: 11px; font-weight: 700; color: var(--c);
+  margin-left: auto; opacity: .9;
+}
+
+.sidebar-sep { height: 1px; background: rgba(255,255,255,.08); margin: 10px 24px; }
+
+.week-zone { padding: 14px 24px; }
+.week-zone-label {
+  font-size: 9px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255,255,255,.35); margin-bottom: 10px;
+}
+.week-control { display: flex; align-items: center; gap: 8px; }
+.wk-btn {
+  width: 28px; height: 28px; border-radius: 6px;
+  border: 1px solid rgba(255,255,255,.18); background: none;
+  color: rgba(255,255,255,.6); cursor: pointer; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s; font-family: 'Montserrat', sans-serif;
+}
+.wk-btn:hover { background: rgba(255,255,255,.1); color: #fff; }
+.wk-num {
+  font-size: 15px; font-weight: 700; color: #fff;
+  min-width: 26px; text-align: center;
+}
+.wk-total { font-size: 11px; color: rgba(255,255,255,.3); font-weight: 500; }
+
+.sidebar-footer {
+  margin-top: auto; padding: 16px 24px 24px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.footer-label {
+  font-size: 9px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(255,255,255,.3); margin-bottom: 8px;
+}
+.footer-meta { font-size: 12px; color: rgba(255,255,255,.45); line-height: 1.5; }
+.footer-meta strong { color: rgba(255,255,255,.8); font-weight: 600; display: block; font-size: 13px; }
+.version-tag {
+  display: inline-block; margin-top: 8px;
+  font-size: 9px; font-weight: 700; letter-spacing: .08em;
+  padding: 3px 8px; border-radius: 3px;
+  background: rgba(73,188,197,.2); color: var(--teal);
+  text-transform: uppercase;
+}
+
+/* ── MAIN ───────────────────────────────────────────────────────── */
+.main { flex: 1; padding: 40px 48px; max-width: 860px; }
+
+.panel { display: none; animation: fadeIn .2s ease; }
+.panel.active { display: block; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:none; } }
+
+/* ── PANEL HEADER ───────────────────────────────────────────────── */
+.panel-eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--c); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.panel-eyebrow::before { content:''; width:24px; height:2px; background:var(--c); border-radius:1px; display:block; }
+
+.panel-title {
+  font-size: 34px; font-weight: 800; letter-spacing: -.03em;
+  color: var(--navy); margin-bottom: 8px; line-height: 1.1;
+}
+.panel-sub {
+  font-size: 13px; color: var(--bluegray); max-width: 520px;
+  line-height: 1.7; margin-bottom: 28px; font-weight: 400;
+}
+
+/* ── PROGRESS ───────────────────────────────────────────────────── */
+.progress-row {
+  display: flex; align-items: flex-end; gap: 20px;
+  margin-bottom: 32px; padding: 20px 24px;
+  background: var(--navy); border-radius: 12px;
+}
+.big-pct {
+  font-size: 64px; font-weight: 800; line-height: 1;
+  letter-spacing: -.04em; color: var(--c);
+}
+.pct-right { flex: 1; padding-bottom: 4px; }
+.pct-meta {
+  display: flex; justify-content: space-between;
+  font-size: 9px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: rgba(255,255,255,.4);
+  margin-bottom: 8px;
+}
+.pct-track { height: 4px; background: rgba(255,255,255,.1); border-radius: 2px; overflow: hidden; }
+.pct-fill { height: 100%; border-radius: 2px; background: var(--c); transition: width .8s cubic-bezier(.4,0,.2,1); }
+.phase-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+.ppill {
+  font-size: 10px; font-weight: 600; padding: 3px 9px;
+  border-radius: 3px; letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.ppill-done { background: rgba(87,183,137,.2); color: var(--green); border: 1px solid rgba(87,183,137,.3); }
+.ppill-active { background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.2); }
+.ppill-pending { background: transparent; color: rgba(255,255,255,.3); border: 1px solid rgba(255,255,255,.1); }
+
+/* ── SECTION HEAD ───────────────────────────────────────────────── */
+.sec-head {
+  font-size: 9px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--bluegray);
+  margin: 26px 0 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sec-head::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* ── GANTT ──────────────────────────────────────────────────────── */
+.gantt-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+  box-shadow: 0 1px 3px rgba(28,46,80,.06);
+}
+.gantt-row { display: flex; align-items: center; border-bottom: 1px solid var(--border); }
+.gantt-row:last-child { border-bottom: none; }
+.g-label {
+  width: 182px; flex-shrink: 0; padding: 8px 12px;
+  font-size: 11.5px; font-weight: 500; color: var(--navy);
+  border-right: 1px solid var(--border);
+  display: flex; align-items: center; gap: 7px;
+}
+.g-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.g-dev {
+  font-size: 9px; font-weight: 700; letter-spacing: .04em;
+  color: var(--coral); margin-left: auto; text-transform: uppercase;
+}
+.g-bar-zone { flex: 1; padding: 5px 10px; height: 30px; position: relative; }
+.g-track { position: absolute; inset: 5px 10px; background: var(--graylight); border-radius: 3px; }
+.g-fill { position: absolute; top: 0; bottom: 0; border-radius: 3px; }
+.g-fill.is-done { opacity: .3; }
+.g-fill.is-active { box-shadow: 0 0 8px var(--c); }
+.g-cursor { position: absolute; top:-3px; bottom:-3px; width:2px; background:var(--coral); border-radius:1px; z-index:3; }
+.g-clabel {
+  position: absolute; top:-18px; left:50%; transform:translateX(-50%);
+  font-size: 9px; font-weight: 700; color: var(--coral);
+  white-space: nowrap; letter-spacing: .05em;
+}
+
+/* ── TWO COL ────────────────────────────────────────────────────── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+
+/* ── CARDS ──────────────────────────────────────────────────────── */
+.card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 10px; padding: 18px;
+  box-shadow: 0 1px 3px rgba(28,46,80,.05);
+}
+.card-label {
+  font-size: 9px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--bluegray); margin-bottom: 12px;
+}
+
+/* ── CHECKLIST ──────────────────────────────────────────────────── */
+.cl { list-style: none; display: flex; flex-direction: column; gap: 1px; }
+.cl li {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 7px 5px; border-radius: 6px; font-size: 13px;
+  font-weight: 400; line-height: 1.4; color: var(--navy);
+  cursor: default;
+}
+.cl li:hover { background: var(--graylight); }
+.cl li .cb {
+  width: 16px; height: 16px; border-radius: 4px;
+  border: 2px solid var(--border2); flex-shrink: 0; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.cl li.done .cb { background: var(--c); border-color: var(--c); }
+.cl li.done .cb::after {
+  content: ''; display: block; width: 8px; height: 5px;
+  border-left: 2px solid #fff; border-bottom: 2px solid #fff;
+  transform: rotate(-45deg) translate(1px,-1px);
+}
+.cl li.done > span { color: var(--bluegray); text-decoration: line-through; }
+
+/* ── NEXT STEPS ─────────────────────────────────────────────────── */
+.next-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.next-list li {
+  font-size: 13px; line-height: 1.5; padding: 9px 11px;
+  background: var(--cream); border-radius: 6px;
+  display: flex; gap: 9px; align-items: flex-start;
+  border: 1px solid var(--border); color: var(--navy);
+}
+.when-tag {
+  font-size: 9px; font-weight: 700; padding: 3px 7px;
+  border-radius: 3px; flex-shrink: 0; margin-top: 2px;
+  letter-spacing: .05em; white-space: nowrap; text-transform: uppercase;
+}
+.when-now  { background: var(--c); color: #fff; }
+.when-next { background: var(--graylight); color: var(--bluegray); }
+
+/* ── RISK BOX ───────────────────────────────────────────────────── */
+.risk-card {
+  background: #FEF3EE;
+  border: 1px solid rgba(238,116,59,.2);
+  border-radius: 10px; padding: 16px 18px; margin-top: 14px;
+}
+.risk-card .card-label { color: var(--coral); }
+.risk-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.risk-list li {
+  font-size: 13px; color: var(--gray); line-height: 1.5;
+  display: flex; gap: 9px;
+}
+.risk-list li::before {
+  content: '!'; font-size: 9px; font-weight: 800;
+  color: var(--coral); flex-shrink: 0; margin-top: 3px;
+  background: rgba(238,116,59,.15); border-radius: 50%;
+  width: 16px; height: 16px; display: flex;
+  align-items: center; justify-content: center;
+}
+
+/* ── NOTES ──────────────────────────────────────────────────────── */
+.notes-ta {
+  width: 100%; padding: 12px 14px;
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--navy);
+  font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 400;
+  resize: vertical; min-height: 80px; outline: none;
+  transition: border-color .15s; line-height: 1.6;
+}
+.notes-ta:focus { border-color: var(--teal); }
+.notes-ta::placeholder { color: var(--bluegray); opacity: .6; }
+
+/* ── PROMPT BOX ─────────────────────────────────────────────────── */
+.prompt-box {
+  margin-top: 24px; background: var(--navy);
+  border-radius: 10px; padding: 18px 20px;
+}
+.prompt-box-label {
+  font-size: 9px; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--teal); margin-bottom: 10px;
+}
+.prompt-text { font-size: 13px; color: rgba(255,255,255,.55); line-height: 1.6; }
+.prompt-text code {
+  font-family: 'Montserrat', monospace; font-size: 12px;
+  color: var(--yellow); background: rgba(255,255,255,.06);
+  padding: 2px 6px; border-radius: 3px;
+}
+.copy-btn {
+  margin-top: 12px; display: inline-flex; align-items: center; gap: 7px;
+  font-family: 'Montserrat', sans-serif; font-size: 10px;
+  font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  padding: 8px 16px; border-radius: 6px; cursor: pointer;
+  background: var(--teal); color: var(--navy); border: none;
+  transition: opacity .15s;
+}
+.copy-btn:hover { opacity: .85; }
+.copy-btn.copied { background: var(--green); }
+
+/* ── WEEK NAV ROW ───────────────────────────────────────────────── */
+.week-row {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px;
+}
+.week-row-label {
+  font-size: 15px; font-weight: 700; color: var(--c);
+  letter-spacing: -.01em;
+}
+.week-row-label strong { color: var(--c); }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-eyebrow">Customer Success</div>
+    <div class="brand-name">Laudus</div>
+    <div class="brand-sub">Proyectos 2026</div>
+  </div>
+
+  <div class="nav-section-label">Iniciativas</div>
+
+  <button class="nav-btn active" style="--c:var(--teal)" onclick="show(0)">
+    <span class="nav-dot"></span>Health Score
+    <span class="nav-pct" id="np0">35%</span>
+  </button>
+  <button class="nav-btn" style="--c:var(--green)" onclick="show(1)">
+    <span class="nav-dot"></span>Ecommerce
+    <span class="nav-pct" id="np1">30%</span>
+  </button>
+  <button class="nav-btn" style="--c:var(--yellow)" onclick="show(2)">
+    <span class="nav-dot"></span>NPS + Churn
+    <span class="nav-pct" id="np2">50%</span>
+  </button>
+  <button class="nav-btn" style="--c:var(--coral)" onclick="show(3)">
+    <span class="nav-dot"></span>Onboarding
+    <span class="nav-pct" id="np3">0%</span>
+  </button>
+
+  <div class="sidebar-sep"></div>
+
+  <div class="week-zone">
+    <div class="week-zone-label">Semana actual</div>
+    <div class="week-control">
+      <button class="wk-btn" onclick="changeWeek(-1)">‹</button>
+      <span class="wk-num" id="wk-num">3</span>
+      <button class="wk-btn" onclick="changeWeek(1)">›</button>
+      <span class="wk-total">/ 16</span>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="footer-label">Última actualización</div>
+    <div class="footer-meta">
+      <strong id="lu-date">28 mayo 2026</strong>
+      Estado inicial
+      <span class="version-tag" id="v-tag">v1.1</span>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ═══ PANEL 0: HEALTH SCORE ══════════════════════════════════ -->
+<div class="panel active" id="p0" style="--c:var(--teal)">
+  <div class="panel-eyebrow">Proyecto 01</div>
+  <h1 class="panel-title">Health Score<br>en tiempo real</h1>
+  <p class="panel-sub">Fuentes identificadas y prototipo estático en Google Sheets. El siguiente paso es llevar esa foto a datos que se actualizan y que disparan acciones concretas en el equipo.</p>
+
+  <div class="progress-row">
+    <div class="big-pct" id="bpct0">35%</div>
+    <div class="pct-right">
+      <div class="pct-meta"><span>Avance general</span><span id="psem0">Semana 3</span></div>
+      <div class="pct-track"><div class="pct-fill" id="pf0" style="width:35%"></div></div>
+      <div class="phase-pills">
+        <span class="ppill ppill-done">Fuentes ✓</span>
+        <span class="ppill ppill-done">Prototipo ✓</span>
+        <span class="ppill ppill-active">Variables →</span>
+        <span class="ppill ppill-pending">Refresh</span>
+        <span class="ppill ppill-pending">APIs Dev</span>
+        <span class="ppill ppill-pending">Dashboard</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head">Gantt — 16 semanas</div>
+  <div class="week-row"><span class="week-row-label" id="wl0"></span></div>
+  <div class="gantt-card" id="gc0"></div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-label">Checklist esta semana</div>
+      <ul class="cl" id="cl0">
+        <li class="done"><span class="cb"></span><span>Identificar fuentes de datos</span></li>
+        <li class="done"><span class="cb"></span><span>Prototipo estático en Google Sheets</span></li>
+        <li><span class="cb"></span><span>Documentar variables con pesos</span></li>
+        <li><span class="cb"></span><span>Definir umbrales rojo / amarillo / verde</span></li>
+        <li><span class="cb"></span><span>Decidir frecuencia de refresh</span></li>
+        <li><span class="cb"></span><span>Mapear acciones por umbral</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Próximos pasos</div>
+      <ul class="next-list">
+        <li><span class="when-tag when-now">Ahora</span>¿Refresh diario resuelve el 90%? Definir antes de ir por tiempo real</li>
+        <li><span class="when-tag when-now">Ahora</span>Documentar cada fuente: formato, frecuencia, dónde vive</li>
+        <li><span class="when-tag when-next">Sem 4</span>Evaluar Make / n8n para automatizar sin Dev</li>
+        <li><span class="when-tag when-next">Sem 5</span>Definir canal de alertas (Slack / email)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="risk-card">
+    <div class="card-label">Riesgos activos</div>
+    <ul class="risk-list">
+      <li>Tiempo real completo requiere Dev (2–3 sem.). Un refresh diario puede dar el 90% del valor sin esperar.</li>
+      <li>Sin definir qué acción dispara cada umbral, el score queda como semáforo decorativo sin impacto en retención.</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="card-label">Notas reunión semanal</div>
+    <textarea class="notes-ta" id="nt0" placeholder="Qué avanzamos · qué bloqueó · acuerdos · próxima semana..."></textarea>
+  </div>
+
+  <div class="prompt-box">
+    <div class="prompt-box-label">Prompt para actualizar con Claude</div>
+    <p class="prompt-text">Copia en tu Proyecto Claude con el estado actual:<br><br>
+    <code>Health Score — Sem [X]. Completé: [...]. Bloqueó: [...]. Avance: [X]%. Actualiza el HTML.</code></p>
+    <button class="copy-btn" onclick="copyPrompt(0,this)">Copiar prompt</button>
+  </div>
+</div>
+
+<!-- ═══ PANEL 1: ECOMMERCE ══════════════════════════════════════ -->
+<div class="panel" id="p1" style="--c:var(--green)">
+  <div class="panel-eyebrow">Proyecto 02</div>
+  <h1 class="panel-title">Ecommerce<br>Postventa</h1>
+  <p class="panel-sub">WooCommerce con productos y pago configurado. El cuello de botella es lo que pasa después del pago — todo manual. Hay que mapear ese flujo y automatizarlo por capas.</p>
+
+  <div class="progress-row">
+    <div class="big-pct" id="bpct1">30%</div>
+    <div class="pct-right">
+      <div class="pct-meta"><span>Avance general</span><span id="psem1">Semana 3</span></div>
+      <div class="pct-track"><div class="pct-fill" id="pf1" style="width:30%"></div></div>
+      <div class="phase-pills">
+        <span class="ppill ppill-done">WooCommerce ✓</span>
+        <span class="ppill ppill-done">Pago ✓</span>
+        <span class="ppill ppill-active">Journey →</span>
+        <span class="ppill ppill-pending">Webhooks</span>
+        <span class="ppill ppill-pending">Emails auto</span>
+        <span class="ppill ppill-pending">ERP Dev</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head">Gantt — 16 semanas</div>
+  <div class="week-row"><span class="week-row-label" id="wl1"></span></div>
+  <div class="gantt-card" id="gc1"></div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-label">Checklist esta semana</div>
+      <ul class="cl" id="cl1">
+        <li class="done"><span class="cb"></span><span>WooCommerce + productos</span></li>
+        <li class="done"><span class="cb"></span><span>Proceso de pago</span></li>
+        <li><span class="cb"></span><span>Mapear journey post-pago paso a paso</span></li>
+        <li><span class="cb"></span><span>Decisión: ¿WooCommerce o plataforma alternativa?</span></li>
+        <li><span class="cb"></span><span>Avanzar pipeline Freshsales sin esperar decisión</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Próximos pasos</div>
+      <ul class="next-list">
+        <li><span class="when-tag when-now">Ahora</span>Definir fecha límite para decisión WooCommerce vs alternativa — todo depende de esto</li>
+        <li><span class="when-tag when-now">Ahora</span>Avanzar pipeline + stages en Freshsales independiente de la plataforma</li>
+        <li><span class="when-tag when-next">Sem 5</span>Estructura de ticket en Freshdesk (sin esperar Dev)</li>
+        <li><span class="when-tag when-next">Sem 5</span>Tabla de supuestos: cada ⚠️ del diagrama = fila con responsable y deadline</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="risk-card">
+    <div class="card-label">Riesgos activos</div>
+    <ul class="risk-list">
+      <li>Decisión WooCommerce vs alternativa es el bloqueador principal. Sin fecha límite, todo lo que viene después queda en pausa indefinida.</li>
+      <li>El flujo muestra que el ejecutivo confirma cada pedido manualmente en Freshsales. Eso no escala — define antes de automatizar cuándo es automático y cuándo requiere revisión humana.</li>
+      <li>Freshsales y Freshdesk son independientes de la plataforma de ecommerce. Puedes avanzar ese lado ahora mismo sin esperar la decisión.</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="card-label">Notas reunión semanal</div>
+    <textarea class="notes-ta" id="nt1" placeholder="Qué avanzamos · qué bloqueó · acuerdos · próxima semana..."></textarea>
+  </div>
+
+  <div class="prompt-box">
+    <div class="prompt-box-label">Prompt para actualizar con Claude</div>
+    <p class="prompt-text"><code>Ecommerce — Sem [X]. Completé: [...]. Bloqueó: [...]. Avance: [X]%. Actualiza el HTML.</code></p>
+    <button class="copy-btn" onclick="copyPrompt(1,this)">Copiar prompt</button>
+  </div>
+</div>
+
+<!-- ═══ PANEL 2: NPS ════════════════════════════════════════════ -->
+<div class="panel" id="p2" style="--c:var(--yellow)">
+  <div class="panel-eyebrow">Proyecto 03</div>
+  <h1 class="panel-title">NPS + Correlación<br>de Churn</h1>
+  <p class="panel-sub">El más avanzado. Tiers definidos, encuesta enviada, primera medición lista. Falta el dashboard de evolución, la cadencia automática y el cruce con datos de churn.</p>
+
+  <div class="progress-row">
+    <div class="big-pct" id="bpct2">50%</div>
+    <div class="pct-right">
+      <div class="pct-meta"><span>Avance general</span><span id="psem2">Semana 3</span></div>
+      <div class="pct-track"><div class="pct-fill" id="pf2" style="width:50%"></div></div>
+      <div class="phase-pills">
+        <span class="ppill ppill-done">Tiers ✓</span>
+        <span class="ppill ppill-done">Encuesta ✓</span>
+        <span class="ppill ppill-done">1ª Medición ✓</span>
+        <span class="ppill ppill-active">Dashboard →</span>
+        <span class="ppill ppill-pending">Cadencia</span>
+        <span class="ppill ppill-pending">Churn</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head">Gantt — 12 semanas</div>
+  <div class="week-row"><span class="week-row-label" id="wl2"></span></div>
+  <div class="gantt-card" id="gc2"></div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-label">Checklist esta semana</div>
+      <ul class="cl" id="cl2">
+        <li class="done"><span class="cb"></span><span>Segmentación de tiers</span></li>
+        <li class="done"><span class="cb"></span><span>Encuesta + envío piloto</span></li>
+        <li class="done"><span class="cb"></span><span>Primera medición NPS</span></li>
+        <li><span class="cb"></span><span>Consolidar resultados en Sheets</span></li>
+        <li><span class="cb"></span><span>Cruzar NPS con churn histórico</span></li>
+        <li><span class="cb"></span><span>Definir cadencia por tier</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Próximos pasos</div>
+      <ul class="next-list">
+        <li><span class="when-tag when-now">Ahora</span>Sheets: score por tier + columnas promotores / detractores</li>
+        <li><span class="when-tag when-now">Ahora</span>Cruzar: ¿los que cancelaron tenían score bajo?</li>
+        <li><span class="when-tag when-next">Sem 4</span>Cadencia: Tier1=60d · Tier2=trimestral · Tier3=semestral</li>
+        <li><span class="when-tag when-next">Sem 5</span>Alerta cuando Tier 1 o 2 responde como detractor</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="risk-card">
+    <div class="card-label">Riesgos activos</div>
+    <ul class="risk-list">
+      <li>Una sola medición no hace tendencia. Necesitas 2–3 puntos para validar correlación con churn. Define ya la próxima fecha de envío.</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="card-label">Notas reunión semanal</div>
+    <textarea class="notes-ta" id="nt2" placeholder="Qué avanzamos · qué bloqueó · acuerdos · próxima semana..."></textarea>
+  </div>
+
+  <div class="prompt-box">
+    <div class="prompt-box-label">Prompt para actualizar con Claude</div>
+    <p class="prompt-text"><code>NPS — Sem [X]. Completé: [...]. Bloqueó: [...]. Avance: [X]%. Actualiza el HTML.</code></p>
+    <button class="copy-btn" onclick="copyPrompt(2,this)">Copiar prompt</button>
+  </div>
+</div>
+
+<!-- ═══ PANEL 3: ONBOARDING ═════════════════════════════════════ -->
+<div class="panel" id="p3" style="--c:var(--coral)">
+  <div class="panel-eyebrow">Proyecto 04</div>
+  <h1 class="panel-title">Onboarding<br>Diferenciado</h1>
+  <p class="panel-sub">Punto de partida en cero. Antes de diseñar el proceso hay que recuperar qué prometió ventas y qué falló antes. El diagnóstico es la primera fase obligatoria.</p>
+
+  <div class="progress-row">
+    <div class="big-pct" id="bpct3">0%</div>
+    <div class="pct-right">
+      <div class="pct-meta"><span>Avance general</span><span id="psem3">Semana 1</span></div>
+      <div class="pct-track"><div class="pct-fill" id="pf3" style="width:0%"></div></div>
+      <div class="phase-pills">
+        <span class="ppill ppill-active">Diagnóstico →</span>
+        <span class="ppill ppill-pending">Criterios</span>
+        <span class="ppill ppill-pending">Template</span>
+        <span class="ppill ppill-pending">Check-ins</span>
+        <span class="ppill ppill-pending">Piloto</span>
+        <span class="ppill ppill-pending">Roll-out</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head">Gantt — 14 semanas</div>
+  <div class="week-row"><span class="week-row-label" id="wl3"></span></div>
+  <div class="gantt-card" id="gc3"></div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-label">Checklist esta semana</div>
+      <ul class="cl" id="cl3">
+        <li><span class="cb"></span><span>Rescatar info de ventas (contratos)</span></li>
+        <li><span class="cb"></span><span>Documentar proceso actual (as-is)</span></li>
+        <li><span class="cb"></span><span>Agendar entrevista con 1 cliente reciente</span></li>
+        <li><span class="cb"></span><span>Definir qué es "onboarding exitoso"</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-label">Próximos pasos</div>
+      <ul class="next-list">
+        <li><span class="when-tag when-now">Ahora</span>Contratos y notas de cierre de últimos 3–5 clientes grandes</li>
+        <li><span class="when-tag when-now">Ahora</span>¿Cuándo tuvo el cliente su primer éxito real con Laudus?</li>
+        <li><span class="when-tag when-next">Sem 3</span>Definir "momento de valor" del producto</li>
+        <li><span class="when-tag when-next">Sem 4</span>Template Notion por cliente con milestones</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="risk-card">
+    <div class="card-label">Riesgos activos</div>
+    <ul class="risk-list">
+      <li>Sin saber qué prometió ventas, los criterios de éxito quedan desalineados. Primera tarea es rescatar esa información.</li>
+      <li>Cambiar el proceso con clientes activos genera confusión. Empieza solo con clientes nuevos que entren desde ahora.</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="card-label">Notas reunión semanal</div>
+    <textarea class="notes-ta" id="nt3" placeholder="Qué avanzamos · qué bloqueó · acuerdos · próxima semana..."></textarea>
+  </div>
+
+  <div class="prompt-box">
+    <div class="prompt-box-label">Prompt para actualizar con Claude</div>
+    <p class="prompt-text"><code>Onboarding — Sem [X]. Completé: [...]. Bloqueó: [...]. Avance: [X]%. Actualiza el HTML.</code></p>
+    <button class="copy-btn" onclick="copyPrompt(3,this)">Copiar prompt</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+/* ── STATE — Claude modifica solo este bloque cada semana ──────── */
+const STATE = {
+  version:    "1.3",
+  lastUpdate: "29 mayo 2026",
+  week: 3,
+  projects: [
+    { pct:35, week:3,  notes:"", checks:[true,true,false,false,false,false] },
+    { pct:40, week:3,  notes:"Journey post-pago mapeado en Miro. Flujo cubre desde ecommerce hasta ticket Freshdesk y encuesta final. Freshsales + Freshdesk definidos como CRM/soporte. Bloqueado: decisión WooCommerce vs plataforma alternativa pendiente. Avance en paralelo posible por lado Freshsales.", checks:[true,true,true,true,false] },
+    { pct:50, week:3,  notes:"", checks:[true,true,true,false,false,false] },
+    { pct:0,  week:1,  notes:"", checks:[false,false,false,false] }
+  ]
+};
+
+/* ── ANCLA DE FECHAS — Semana 1 = lunes 11 mayo 2026 ──────────── */
+const WEEK1_MONDAY = new Date(2026, 4, 11);
+const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function weekMonday(w) {
+  const d = new Date(WEEK1_MONDAY);
+  d.setDate(d.getDate() + (w - 1) * 7);
+  return d;
+}
+function fmtShort(d) { return d.getDate() + ' ' + MESES[d.getMonth()]; }
+function weekRangeLabel(w) {
+  const mon = weekMonday(w);
+  const sun = new Date(mon); sun.setDate(sun.getDate() + 6);
+  if (mon.getMonth() === sun.getMonth()) {
+    return mon.getDate() + ' – ' + sun.getDate() + ' ' + MESES[sun.getMonth()] + ' ' + sun.getFullYear();
+  }
+  return fmtShort(mon) + ' – ' + fmtShort(sun) + ' ' + sun.getFullYear();
+}
+
+/* ── GANTT DATA ─────────────────────────────────────────────────── */
+const G = [
+  { w:16, c:'var(--teal)', phases:[
+    {n:'Fuentes identificadas',    s:1, e:1,  done:true},
+    {n:'Prototipo estático (Sheets)',s:1, e:2,  done:true},
+    {n:'Variables + pesos',        s:2, e:3,  active:true},
+    {n:'Acciones por umbral',      s:3, e:4},
+    {n:'Make / n8n vs Dev',        s:3, e:4},
+    {n:'Automatización refresh',   s:4, e:7},
+    {n:'APIs fuentes (Dev)',        s:5, e:9,  dev:true},
+    {n:'Dashboard + alertas',      s:9, e:13},
+    {n:'Playbooks automáticos',    s:12,e:16},
+  ]},
+  { w:16, c:'var(--green)', phases:[
+    {n:'WooCommerce + productos',  s:1, e:2,  done:true},
+    {n:'Proceso de pago',          s:1, e:2,  done:true},
+    {n:'Mapeo customer journey',   s:2, e:3,  done:true},
+    {n:'Pasos manuales críticos',  s:2, e:3,  done:true},
+    {n:'Decisión plataforma ⚠️',   s:4, e:5,  active:true, dev:false},
+    {n:'Webhooks + Make',          s:5, e:7},
+    {n:'Email post-compra',        s:5, e:7},
+    {n:'Freshsales + Freshdesk',   s:4, e:8},
+    {n:'Activación ERP (Dev)',     s:6, e:10, dev:true},
+    {n:'Métricas y optimización',  s:11,e:15},
+  ]},
+  { w:12, c:'var(--yellow)', phases:[
+    {n:'Segmentación tiers',       s:1, e:1,  done:true},
+    {n:'Encuesta + piloto',        s:1, e:2,  done:true},
+    {n:'1ª medición NPS',          s:2, e:3,  done:true},
+    {n:'Dashboard evolución',      s:3, e:4,  active:true},
+    {n:'Correlación NPS × churn',  s:3, e:5},
+    {n:'Cadencia por tier',        s:4, e:7},
+    {n:'Alerta detractores',       s:5, e:7},
+    {n:'2ª medición + análisis',   s:7, e:9},
+    {n:'Ajuste y cierre',          s:9, e:12},
+  ]},
+  { w:14, c:'var(--coral)', phases:[
+    {n:'Info ventas + diagnóstico',s:1, e:2,  active:true},
+    {n:'Entrevistas clientes',     s:1, e:2},
+    {n:'Momento de valor',         s:2, e:3},
+    {n:'Criterios éxito por tier', s:3, e:4},
+    {n:'Template Notion',          s:3, e:4},
+    {n:'Check-in semanal',         s:3, e:5},
+    {n:'Encuesta pulso auto',      s:4, e:6},
+    {n:'Piloto tier grande',       s:5, e:8},
+    {n:'Roll-out tiers medios',    s:8, e:12},
+    {n:'Métricas onboarding',      s:11,e:14},
+  ]},
+];
+
+let currentWeek = STATE.week;
+
+function renderGantt(idx) {
+  const g = G[idx];
+  const container = document.getElementById('gc'+idx);
+  container.innerHTML = '';
+  const wl = document.getElementById('wl'+idx);
+  if(wl) wl.textContent = weekRangeLabel(currentWeek);
+
+  g.phases.forEach(ph => {
+    const mw = g.w;
+    const sp = ((ph.s-1)/mw*100).toFixed(2);
+    const wp = ((ph.e-ph.s+1)/mw*100).toFixed(2);
+    const cp = ((currentWeek-1)/mw*100).toFixed(2);
+
+    const dotColor = ph.done ? '#57B789' : ph.active ? g.c.replace('var(--','#').replace(')','') : '#CCCCCC';
+    const dotColorResolved = ph.done ? '#57B789' : ph.active ? g.c : 'var(--graylight)';
+    const fillClass = ph.done ? 'is-done' : ph.active ? 'is-active' : '';
+    const devHtml = ph.dev ? '<span class="g-dev">⏳ Dev</span>' : '';
+
+    const row = document.createElement('div');
+    row.className = 'gantt-row';
+    row.innerHTML = `
+      <div class="g-label">
+        <span class="g-dot" style="background:${dotColorResolved}"></span>
+        ${ph.n}${devHtml}
+      </div>
+      <div class="g-bar-zone">
+        <div class="g-track">
+          <div class="g-fill ${fillClass}" style="background:${g.c};left:${sp}%;width:${wp}%"></div>
+          <div class="g-cursor" style="left:${cp}%">
+            <span class="g-clabel">${fmtShort(weekMonday(currentWeek))}</span>
+          </div>
+        </div>
+      </div>`;
+    container.appendChild(row);
+  });
+}
+
+function applyState() {
+  document.getElementById('lu-date').textContent = STATE.lastUpdate;
+  document.getElementById('v-tag').textContent = 'v'+STATE.version;
+  document.getElementById('wk-num').textContent = currentWeek;
+
+  STATE.projects.forEach((p,idx) => {
+    document.getElementById('bpct'+idx).textContent = p.pct+'%';
+    document.getElementById('pf'+idx).style.width = p.pct+'%';
+    document.getElementById('np'+idx).textContent = p.pct+'%';
+    document.getElementById('psem'+idx).textContent = 'Semana '+p.week;
+
+    const items = document.querySelectorAll('#cl'+idx+' li');
+    p.checks.forEach((done,i) => { if(items[i]) items[i].classList.toggle('done', done); });
+
+    const ta = document.getElementById('nt'+idx);
+    if(ta && p.notes) ta.value = p.notes;
+
+    renderGantt(idx);
+  });
+}
+
+function show(idx) {
+  document.querySelectorAll('.panel').forEach((p,i) => p.classList.toggle('active', i===idx));
+  document.querySelectorAll('.nav-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  renderGantt(idx);
+}
+
+function changeWeek(dir) {
+  currentWeek = Math.max(1, Math.min(20, currentWeek+dir));
+  document.getElementById('wk-num').textContent = currentWeek;
+  [0,1,2,3].forEach(renderGantt);
+}
+
+const NAMES = ['Health Score','Ecommerce','NPS','Onboarding'];
+function copyPrompt(idx, btn) {
+  const text = `${NAMES[idx]} — Sem [X]. Completé: [qué hiciste]. Bloqueó: [qué frenó]. Avance estimado: [X]%. Actualiza el HTML del dashboard con este progreso y devuélveme el archivo actualizado.`;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Copiado'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar prompt'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+applyState();
+</script>
+</body>
+</html>
